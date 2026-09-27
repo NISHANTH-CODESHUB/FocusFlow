@@ -1,5 +1,5 @@
 -- =============================================================================
--- StudentOS — initial schema
+-- FocusFlow — initial schema
 --
 -- Design principles
 --   * Every table carries user_id and is protected by Row Level Security.

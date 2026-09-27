@@ -3,7 +3,7 @@
  *
  * Runs the real migrations in an embedded Postgres (PGlite) and exposes the
  * subset of the GoTrue (auth), PostgREST (rest) and Storage HTTP APIs that
- * StudentOS uses. Every data request executes as the `authenticated` role with
+ * FocusFlow uses. Every data request executes as the `authenticated` role with
  * `auth.uid()` set from the JWT, so Row Level Security is enforced exactly as
  * in production.
  *

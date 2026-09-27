@@ -2,8 +2,6 @@
 
 FocusFlow is an all-in-one academic and career platform helping students plan, organize, and track tests, labs, assignments, projects, hackathons, internships, DSA, aptitude, certifications, and learning goals. It offers progress analytics, study material organization, secure file storage, reminders, and PDF/Excel exports in one workspace.
 
-> The app currently displays the working name **StudentOS** in its UI.
-
 Built with React + TypeScript + Tailwind on Supabase (Auth, Postgres with Row
 Level Security, Storage). See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for
 the design and data model.
@@ -58,8 +56,20 @@ the design and data model.
    npm run dev
    ```
 
-Build for production with `npm run build` (output in `dist/`, deploy to any
-static host with SPA fallback to `index.html`, e.g. Vercel, Netlify, Cloudflare Pages).
+Build for production with `npm run build` (output in `dist/`).
+
+## Deploy to Vercel
+
+`vercel.json` configures the Vite build, client-side routing and caching headers.
+
+1. In Vercel, **Add New → Project** and import this GitHub repository
+   (framework preset: Vite — detected automatically).
+2. Under **Environment Variables** add `VITE_SUPABASE_URL` and
+   `VITE_SUPABASE_ANON_KEY` for Production (and Preview if you use it).
+   Vite inlines them at build time, so redeploy after changing them.
+3. Deploy. Every push to `main` then redeploys automatically.
+4. In Supabase **Authentication → URL configuration**, set the Site URL to your
+   Vercel domain and add `https://<your-domain>/reset-password` to redirect URLs.
 
 ## Try it locally without a Supabase project
 
@@ -79,7 +89,7 @@ npm run local:seed
 npm run dev:emulator
 ```
 
-Sign in with the demo account `demo@studentos.test` / `Student123` (emulator
+Sign in with the demo account `demo@focusflow.test` / `Student123` (emulator
 only). Data persists in `.local-supabase/`; `npm run local:backend:reset` wipes it.
 
 ## Tests

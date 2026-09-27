@@ -27,7 +27,7 @@ const SettingsPage = lazy(() => import('@/features/settings/SettingsPage'))
 function FullScreenLoader() {
   return (
     <div className="grid min-h-dvh place-items-center">
-      <Spinner label="Loading StudentOS" />
+      <Spinner label="Loading FocusFlow" />
     </div>
   )
 }

@@ -16,7 +16,7 @@ export const supabase: SupabaseClient<Database> = createClient<Database>(
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      storageKey: 'studentos-auth',
+      storageKey: 'focusflow-auth',
     },
   },
 )

@@ -5,12 +5,12 @@
  *   npm run local:backend      # in one terminal
  *   npm run local:seed         # in another
  *
- * Demo account (emulator only): demo@studentos.test / Student123
+ * Demo account (emulator only): demo@focusflow.test / Student123
  */
 import { createClient } from '@supabase/supabase-js'
 
 const URL = process.env.SUPABASE_URL ?? 'http://localhost:54321'
-const EMAIL = process.env.SEED_EMAIL ?? 'demo@studentos.test'
+const EMAIL = process.env.SEED_EMAIL ?? 'demo@focusflow.test'
 const PASSWORD = process.env.SEED_PASSWORD ?? 'Student123'
 
 const sb = createClient(URL, 'local-emulator-anon-key', { auth: { persistSession: false } })

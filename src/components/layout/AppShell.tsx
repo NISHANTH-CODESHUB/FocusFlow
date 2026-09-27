@@ -19,7 +19,7 @@ function Brand({ compact }: { compact?: boolean }) {
       <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
         <GraduationCap className="size-4.5" />
       </span>
-      <span className={cn('text-[15px]', compact && 'max-[359px]:hidden')}>StudentOS</span>
+      <span className={cn('text-[15px]', compact && 'max-[359px]:hidden')}>FocusFlow</span>
     </Link>
   )
 }

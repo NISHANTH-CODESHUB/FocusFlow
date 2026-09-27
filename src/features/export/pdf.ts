@@ -46,7 +46,7 @@ export function buildPdf(datasets: Dataset[], meta: { name: string; email?: stri
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(20)
-  doc.text('StudentOS report', margin, 42)
+  doc.text('FocusFlow report', margin, 42)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
   doc.text(pdfSafe(`${meta.name}${meta.email ? ` · ${meta.email}` : ''}`), width - margin, 36, { align: 'right' })
@@ -95,7 +95,7 @@ export function buildPdf(datasets: Dataset[], meta: { name: string; email?: stri
     doc.setFontSize(8)
     doc.setTextColor(...MUTED)
     const h = doc.internal.pageSize.getHeight()
-    doc.text('StudentOS', margin, h - 20)
+    doc.text('FocusFlow', margin, h - 20)
     doc.text(`Page ${i} of ${pages}`, width - margin, h - 20, { align: 'right' })
   }
   return doc.output('blob')

@@ -26,7 +26,7 @@ async function signUp(email: string): Promise<{ sb: SupabaseClient<Database>; id
 }
 
 beforeAll(async () => {
-  dir = mkdtempSync(join(tmpdir(), 'studentos-emulator-'))
+  dir = mkdtempSync(join(tmpdir(), 'focusflow-emulator-'))
   server = spawn(process.execPath, ['dev/local-supabase/server.ts'], {
     env: { ...process.env, PORT: String(PORT), LOCAL_SUPABASE_DIR: dir, QUIET: '1' },
     stdio: ['ignore', 'pipe', 'inherit'],

@@ -4,9 +4,9 @@ import type { Dataset } from './datasets'
 /** One worksheet per dataset with a styled, frozen, filterable header row. */
 export async function buildWorkbook(datasets: Dataset[], meta: { name: string; now?: Date }): Promise<Blob> {
   const wb = new ExcelJS.Workbook()
-  wb.creator = 'StudentOS'
+  wb.creator = 'FocusFlow'
   wb.created = meta.now ?? new Date()
-  wb.title = `StudentOS report — ${meta.name}`
+  wb.title = `FocusFlow report — ${meta.name}`
   const used = new Set<string>()
 
   for (const ds of datasets) {

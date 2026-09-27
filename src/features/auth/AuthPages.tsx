@@ -26,7 +26,7 @@ function AuthLayout({ title, subtitle, children, footer }: { title: string; subt
           <span className="grid size-9 place-items-center rounded-lg bg-white/15 ring-1 ring-white/25">
             <GraduationCap className="size-5" />
           </span>
-          StudentOS
+          FocusFlow
         </div>
         <div className="my-auto max-w-md">
           <h2 className="text-3xl leading-tight font-semibold tracking-tight">Your semester, career prep and projects — in one calm place.</h2>
@@ -58,7 +58,7 @@ function AuthLayout({ title, subtitle, children, footer }: { title: string; subt
             <span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground">
               <GraduationCap className="size-4" />
             </span>
-            StudentOS
+            FocusFlow
           </div>
           <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
           <p className="mt-1.5 text-sm text-muted-foreground">{subtitle}</p>
@@ -285,7 +285,7 @@ export function ResetPasswordPage() {
 
 export function SetupRequired() {
   return (
-    <AuthLayout title="Connect Supabase" subtitle="StudentOS needs a Supabase project for auth, database and file storage.">
+    <AuthLayout title="Connect Supabase" subtitle="FocusFlow needs a Supabase project for auth, database and file storage.">
       <ol className="list-decimal space-y-3 pl-5 text-sm text-muted-foreground">
         <li>Create a project at supabase.com (free tier works).</li>
         <li>

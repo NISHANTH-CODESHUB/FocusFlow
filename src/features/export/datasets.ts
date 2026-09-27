@@ -394,7 +394,7 @@ export function buildDatasets(src: ExportSource, opts: ExportOptions, now = new 
 }
 
 export function exportFileName(ext: 'pdf' | 'xlsx', now = new Date()) {
-  return `studentos-report-${formatDate(now, 'yyyy-MM-dd')}.${ext}`
+  return `focusflow-report-${formatDate(now, 'yyyy-MM-dd')}.${ext}`
 }
 
 export function triggerDownload(blob: Blob, fileName: string) {

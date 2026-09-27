@@ -361,7 +361,7 @@ function Onboarding() {
   return (
     <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary-soft to-card">
       <CardBody className="pt-5">
-        <h2 className="font-semibold">Welcome to StudentOS 👋</h2>
+        <h2 className="font-semibold">Welcome to FocusFlow 👋</h2>
         <p className="mt-1 text-sm text-muted-foreground">Start with any of these — everything connects to your dashboard automatically. Press N anytime to add something.</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map(({ icon: Icon, title, text, run }) => (

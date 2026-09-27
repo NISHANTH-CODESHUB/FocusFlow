@@ -8,7 +8,7 @@ interface ThemeState {
   setTheme: (theme: Theme) => void
 }
 
-const KEY = 'studentos-theme'
+const KEY = 'focusflow-theme'
 const ThemeContext = createContext<ThemeState | null>(null)
 
 function readTheme(): Theme {

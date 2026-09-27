@@ -1,4 +1,4 @@
-# StudentOS — architecture
+# FocusFlow — architecture
 
 ## Stack
 
