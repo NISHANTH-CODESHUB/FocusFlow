@@ -295,6 +295,10 @@ export function SetupRequired() {
           Copy <code className="rounded bg-muted px-1 text-foreground">.env.example</code> to <code className="rounded bg-muted px-1 text-foreground">.env.local</code> and fill in the project URL and anon key.
         </li>
         <li>Restart the dev server.</li>
+        <li>
+          Deployed (e.g. on Vercel)? Set <code className="rounded bg-muted px-1 text-foreground">VITE_SUPABASE_URL</code> and{' '}
+          <code className="rounded bg-muted px-1 text-foreground">VITE_SUPABASE_ANON_KEY</code> in the project's environment variables, then redeploy.
+        </li>
       </ol>
     </AuthLayout>
   )

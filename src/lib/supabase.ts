@@ -1,16 +1,19 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
 
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+// Trim and treat empty strings as missing: hosting dashboards often save blank values.
+const url = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() || undefined
+const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim() || undefined
 
-export const isSupabaseConfigured = Boolean(url && anonKey && !url.includes('your-project-ref'))
+export const isSupabaseConfigured = Boolean(url && anonKey && /^https?:\/\//.test(url) && !url.includes('your-project-ref'))
 
 export const STORAGE_BUCKET = 'user-files'
 
+// When unconfigured the app renders a setup screen and never calls this client,
+// but it must still construct without throwing.
 export const supabase: SupabaseClient<Database> = createClient<Database>(
-  url ?? 'http://localhost:54321',
-  anonKey ?? 'public-anon-key-missing',
+  isSupabaseConfigured ? url! : 'http://localhost:54321',
+  isSupabaseConfigured ? anonKey! : 'public-anon-key-missing',
   {
     auth: {
       persistSession: true,
