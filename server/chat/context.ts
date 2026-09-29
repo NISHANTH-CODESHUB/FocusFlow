@@ -3,7 +3,7 @@
  * assistant. Pure and deterministic so it can be unit-tested; dates are shown
  * in the student's own time zone.
  */
-import type { Concept, Item, Profile, Skill, Subject, Unit } from '../../src/types/database'
+import type { Concept, Item, Profile, Skill, Subject, Unit } from '../../src/types/database.js'
 
 export interface StudentData {
   profile: Pick<Profile, 'full_name' | 'institution' | 'program' | 'graduation_year'> | null

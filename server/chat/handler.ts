@@ -9,8 +9,8 @@
 import { createClient } from '@supabase/supabase-js'
 import Groq from 'groq-sdk'
 import { z } from 'zod'
-import type { Concept, Database, Item, Skill, Subject, Unit } from '../../src/types/database'
-import { buildStudentContext, safeTimeZone, SYSTEM_PROMPT } from './context'
+import type { Concept, Database, Item, Skill, Subject, Unit } from '../../src/types/database.js'
+import { buildStudentContext, safeTimeZone, SYSTEM_PROMPT } from './context.js'
 
 export interface ChatEnv {
   GROQ_API_KEY?: string
