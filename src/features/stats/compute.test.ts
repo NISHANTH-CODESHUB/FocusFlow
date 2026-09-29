@@ -206,8 +206,9 @@ describe('academic tree', () => {
         concept({ unit_id: 'u2', status: 'completed' }),
       ],
     })
-    expect(tree[0]!.units.map((u) => u.stats.percent)).toEqual([75, 50])
-    expect(tree[0]!.stats).toMatchObject({ total: 4, completed: 2, learning: 1, notStarted: 1, percent: 63 })
+    // Only completed topics count toward the percentage.
+    expect(tree[0]!.units.map((u) => u.stats.percent)).toEqual([50, 50])
+    expect(tree[0]!.stats).toMatchObject({ total: 4, completed: 2, learning: 1, notStarted: 1, percent: 50 })
   })
   it('handles empty input', () => {
     expect(progressOf([])).toMatchObject({ total: 0, percent: 0 })

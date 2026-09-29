@@ -79,15 +79,15 @@ export default function StatsPage() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <Stat label={`Completed · ${rangeLabel}`} value={s.completedInRange} hint="Planner items" icon={<CheckCircle2 />} tone="success" />
         <Stat label={`Concepts · ${rangeLabel}`} value={s.conceptsInRange} hint="Marked completed" icon={<Lightbulb />} />
-        <Stat label="Completion rate" value={`${s.summary.completionRate}%`} hint={`${s.summary.completed} of ${s.summary.total - s.statuses.find((x) => x.key === 'cancelled')!.value} items`} icon={<ListChecks />} />
-        <Stat label="Pending" value={s.summary.open} hint={`${s.summary.inProgress} in progress`} icon={<Layers />} />
+        <Stat label="Finished overall" value={`${s.summary.completionRate}%`} hint={`${s.summary.completed} of ${s.summary.total - s.statuses.find((x) => x.key === 'cancelled')!.value} items`} icon={<ListChecks />} />
+        <Stat label="Still to do" value={s.summary.open} hint={`${s.summary.inProgress} in progress`} icon={<Layers />} />
         <Stat label="Overdue" value={s.summary.overdue} icon={<AlertTriangle />} tone={s.summary.overdue ? 'danger' : 'success'} hint={s.summary.overdue ? 'Reschedule or finish' : 'Nothing overdue'} />
         <Stat label="Streak" value={`${s.streak.current}d`} hint={`Best ${s.streak.best} days`} icon={<Flame />} tone="warning" />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-2">
         <Card>
-          <CardHeader icon={<TrendingUp />} title="Productivity" description={`Completions per ${range === '12m' ? 'month' : 'day'} · ${rangeLabel}`} action={<Legend series={[{ key: 't', label: 'Planner items', color: SERIES[0]! }, { key: 'c', label: 'Concepts', color: SERIES[1]! }]} />} />
+          <CardHeader icon={<TrendingUp />} title="What you finished" description={`Items and topics completed each ${range === '12m' ? 'month' : 'day'} · ${rangeLabel}`} action={<Legend series={[{ key: 't', label: 'Planner items', color: SERIES[0]! }, { key: 'c', label: 'Concepts', color: SERIES[1]! }]} />} />
           <CardBody>
             <TimeBarChart
               ariaLabel="Completed planner items and concepts over time"
@@ -101,7 +101,7 @@ export default function StatsPage() {
           </CardBody>
         </Card>
         <Card>
-          <CardHeader icon={<Activity />} title="Completion trend" description="Items added vs completed — keep the gap small" action={<Legend series={[{ key: 'a', label: 'Added', color: SERIES[6]! }, { key: 'b', label: 'Completed', color: SERIES[2]! }]} />} />
+          <CardHeader icon={<Activity />} title="Added vs finished" description="New items you added and items you finished — if the purple line stays above, your list is growing" action={<Legend series={[{ key: 'a', label: 'Added', color: SERIES[6]! }, { key: 'b', label: 'Completed', color: SERIES[2]! }]} />} />
           <CardBody>
             <TimeLineChart
               ariaLabel="Planner items added versus completed over time"
@@ -118,7 +118,7 @@ export default function StatsPage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader icon={<ListChecks />} title="Completed vs pending by category" />
+          <CardHeader icon={<ListChecks />} title="Done vs still to do, by type" />
           <CardBody>
             <ProgressRows
               rows={s.categories.map((c) => ({

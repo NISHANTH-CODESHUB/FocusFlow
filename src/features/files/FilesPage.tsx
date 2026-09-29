@@ -17,14 +17,14 @@ import { CATEGORIES, CATEGORY_MAP } from '../items/config'
 import { openFile, useDeleteFile, useFiles, useUpdateFile, useUploadFiles, type FileLinks } from './api'
 import { DropZone, FileTypeIcon } from './components'
 
-export const FOLDERS: ReadonlyArray<{ value: FileFolder; label: string; icon: typeof FileText }> = [
-  { value: 'certificates', label: 'Certificates', icon: Award },
-  { value: 'academic', label: 'Academic materials', icon: BookOpen },
-  { value: 'study', label: 'Study materials', icon: Library },
-  { value: 'projects', label: 'Project documents', icon: FolderKanban },
-  { value: 'resume', label: 'Resume & career', icon: Briefcase },
-  { value: 'important', label: 'Important documents', icon: Shield },
-  { value: 'other', label: 'Other', icon: FolderOpen },
+export const FOLDERS: ReadonlyArray<{ value: FileFolder; label: string; hint: string; icon: typeof FileText }> = [
+  { value: 'certificates', label: 'Certificates', hint: 'Course, hackathon and internship certificates', icon: Award },
+  { value: 'academic', label: 'College materials', hint: 'Syllabus, slides, question papers from college', icon: BookOpen },
+  { value: 'study', label: 'My notes', hint: 'Your own notes, summaries and practice work', icon: Library },
+  { value: 'projects', label: 'Project documents', hint: 'Reports, designs and project files', icon: FolderKanban },
+  { value: 'resume', label: 'Resume & career', hint: 'Resume, cover letters, offer letters', icon: Briefcase },
+  { value: 'important', label: 'Important documents', hint: 'ID cards, fee receipts, mark sheets', icon: Shield },
+  { value: 'other', label: 'Other', hint: 'Anything else', icon: FolderOpen },
 ]
 const folderLabel = (f: FileFolder) => FOLDERS.find((x) => x.value === f)!.label
 
@@ -102,7 +102,7 @@ export default function FilesPage() {
         <nav aria-label="Folders" className="scrollbar-thin -mx-4 flex gap-1 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0">
           <FolderButton active={!folder} onClick={() => setFolder(null)} icon={<HardDrive />} label="All files" count={files?.length ?? 0} />
           {FOLDERS.map((f) => (
-            <FolderButton key={f.value} active={folder === f.value} onClick={() => setFolder(f.value)} icon={<f.icon />} label={f.label} count={counts.get(f.value) ?? 0} />
+            <FolderButton key={f.value} active={folder === f.value} onClick={() => setFolder(f.value)} icon={<f.icon />} label={f.label} hint={f.hint} count={counts.get(f.value) ?? 0} />
           ))}
           <p className="mt-3 hidden px-3 text-xs text-muted-foreground lg:block">{formatBytes(totalBytes)} used · private to you</p>
         </nav>
@@ -191,10 +191,11 @@ export default function FilesPage() {
   )
 }
 
-function FolderButton({ active, onClick, icon, label, count }: { active: boolean; onClick: () => void; icon: ReactNode; label: string; count: number }) {
+function FolderButton({ active, onClick, icon, label, hint, count }: { active: boolean; onClick: () => void; icon: ReactNode; label: string; hint?: string; count: number }) {
   return (
     <button
       onClick={onClick}
+      title={hint}
       aria-current={active || undefined}
       className={cn(
         'flex shrink-0 cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors [&_svg]:size-4 [&_svg]:shrink-0',
@@ -358,7 +359,7 @@ function UploadDialog({ defaultFolder, onClose }: { defaultFolder: FileFolder; o
             ))}
           </ul>
         )}
-        <Field label="Folder" htmlFor="u-folder">
+        <Field label="Folder" htmlFor="u-folder" hint={FOLDERS.find((f) => f.value === folder)?.hint}>
           <Select id="u-folder" value={folder} onChange={(e) => setFolder(e.target.value as FileFolder)}>
             {FOLDERS.map((f) => (
               <option key={f.value} value={f.value}>
@@ -425,7 +426,7 @@ function EditFileDialog({ file, onClose }: { file: FileRecord; onClose: () => vo
         <Field label="Name" htmlFor="f-name" error={nameError}>
           <Input id="f-name" value={name} onChange={(e) => setName(e.target.value)} aria-invalid={!!nameError} />
         </Field>
-        <Field label="Folder" htmlFor="f-folder">
+        <Field label="Folder" htmlFor="f-folder" hint={FOLDERS.find((f) => f.value === folder)?.hint}>
           <Select id="f-folder" value={folder} onChange={(e) => setFolder(e.target.value as FileFolder)}>
             {FOLDERS.map((f) => (
               <option key={f.value} value={f.value}>

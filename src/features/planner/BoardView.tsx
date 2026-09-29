@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
 import type { Item, ItemStatus } from '@/types/database'
 import { statusPatch, useUpdateItem } from '../items/api'
+import { ITEM_DRAG_TYPE } from './dnd'
 import { CategoryChip, DueLabel, PriorityFlag } from '../items/components'
 import { STATUS_MAP } from '../items/config'
 import { useItemEditor } from '../items/editor'
@@ -32,7 +33,7 @@ export function BoardView({ items }: { items: Item[] }) {
   const onDrop = (e: DragEvent, status: ItemStatus) => {
     e.preventDefault()
     setOver(null)
-    const id = e.dataTransfer.getData('text/item-id')
+    const id = e.dataTransfer.getData(ITEM_DRAG_TYPE)
     const item = items.find((i) => i.id === id)
     if (item && item.status !== status) update.mutate({ id, patch: statusPatch(item, status) })
   }
@@ -72,7 +73,7 @@ export function BoardView({ items }: { items: Item[] }) {
                   key={it.id}
                   draggable
                   onDragStart={(e) => {
-                    e.dataTransfer.setData('text/item-id', it.id)
+                    e.dataTransfer.setData(ITEM_DRAG_TYPE, it.id)
                     e.dataTransfer.effectAllowed = 'move'
                   }}
                   className="group cursor-grab rounded-lg border border-border bg-card p-3 shadow-xs transition-shadow hover:shadow-md active:cursor-grabbing"

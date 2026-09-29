@@ -105,6 +105,12 @@ export default function CareerPage() {
 /* -------------------------------- Overview ------------------------------- */
 
 function Overview({ items, onNavigate }: { items: Item[]; onNavigate: (tab: string) => void }) {
+  const editor = useItemEditor()
+  const add = (label: string, run: () => void) => (
+    <Button size="sm" variant="outline" onClick={run}>
+      <Plus /> {label}
+    </Button>
+  )
   const dsa = dsaStats(items)
   const apt = aptitudeStats(items)
   const certs = certificationStats(items)
@@ -129,7 +135,11 @@ function Overview({ items, onNavigate }: { items: Item[]; onNavigate: (tab: stri
         <Card>
           <CardHeader icon={<Briefcase />} title="Internship pipeline" description="Applications by stage" />
           <CardBody>
-            <PipelineStrip pipeline={pipeline} />
+            {pipeline.some((p) => p.count > 0) ? (
+              <PipelineStrip pipeline={pipeline} />
+            ) : (
+              <EmptyState compact icon={<Briefcase />} title="No applications yet" description="Track internships from wishlist to offer." action={add('Add internship', () => editor.create({ category: 'internship' }))} />
+            )}
           </CardBody>
         </Card>
         <Card>
@@ -137,7 +147,7 @@ function Overview({ items, onNavigate }: { items: Item[]; onNavigate: (tab: stri
           <CardBody>
             <ProgressRows
               rows={dsa.byDifficulty.filter((b) => b.total > 0).map((b, i) => ({ key: b.key, label: b.label, done: b.done, total: b.total, color: b.key === '_none' ? 'var(--chart-muted)' : [SERIES[2], SERIES[3], SERIES[7]][i] }))}
-              empty={<EmptyState compact icon={<Code2 />} title="No DSA problems yet" />}
+              empty={<EmptyState compact icon={<Code2 />} title="No DSA problems yet" action={add('Log a problem', () => editor.create({ category: 'dsa' }))} />}
             />
           </CardBody>
         </Card>
@@ -150,7 +160,7 @@ function Overview({ items, onNavigate }: { items: Item[]; onNavigate: (tab: stri
                 .sort(compareItems('due'))
                 .slice(0, 6)
                 .map((p) => ({ key: p.id, label: p.title, done: p.progress, total: 100, suffix: `${p.progress}%`, color: SERIES[6] }))}
-              empty={<EmptyState compact icon={<FolderKanban />} title="No projects yet" />}
+              empty={<EmptyState compact icon={<FolderKanban />} title="No projects yet" action={add('Add project', () => editor.create({ category: 'project' }))} />}
             />
           </CardBody>
         </Card>
@@ -167,7 +177,7 @@ function Overview({ items, onNavigate }: { items: Item[]; onNavigate: (tab: stri
                 ))}
               </ul>
             ) : (
-              <EmptyState compact icon={<Award />} title="No achievements logged" />
+              <EmptyState compact icon={<Award />} title="No achievements logged" action={add('Add achievement', () => onNavigate('achievements'))} />
             )}
           </CardBody>
         </Card>
@@ -218,6 +228,7 @@ const byStatus = (f: StatusFilter) => (it: Item) => (f === 'all' ? true : f === 
 /* ----------------------------------- DSA ---------------------------------- */
 
 function DsaTab({ items }: { items: Item[] }) {
+  const editor = useItemEditor()
   const stats = dsaStats(items)
   const [status, setStatus] = useState<StatusFilter>('all')
   const [topic, setTopic] = useState('')
@@ -286,7 +297,7 @@ function DsaTab({ items }: { items: Item[] }) {
           <Segmented ariaLabel="Status" value={status} onChange={setStatus} options={statusFilterOptions} />
         </TabToolbar>
         <Card className="px-3 py-1">
-          {list.length ? <ItemList items={list} hideCategory /> : <EmptyState compact className="my-3 border-none" icon={<Code2 />} title="No problems here" description="Log problems as you solve them, with topic, difficulty and link." />}
+          {list.length ? <ItemList items={list} hideCategory /> : <EmptyState compact className="my-3 border-none" icon={<Code2 />} title="No problems here" description="Log problems as you solve them, with topic, difficulty and link." action={<Button size="sm" onClick={() => editor.create({ category: 'dsa' })}><Plus /> Log a problem</Button>} />}
         </Card>
       </div>
     </div>
@@ -296,6 +307,7 @@ function DsaTab({ items }: { items: Item[] }) {
 /* -------------------------------- Aptitude -------------------------------- */
 
 function AptitudeTab({ items }: { items: Item[] }) {
+  const editor = useItemEditor()
   const stats = aptitudeStats(items)
   const [status, setStatus] = useState<StatusFilter>('all')
   const list = items.filter((i) => i.category === 'aptitude').filter(byStatus(status)).sort(compareItems('due'))
@@ -326,7 +338,7 @@ function AptitudeTab({ items }: { items: Item[] }) {
           <Segmented ariaLabel="Status" value={status} onChange={setStatus} options={statusFilterOptions} />
         </TabToolbar>
         <Card className="px-3 py-1">
-          {list.length ? <ItemList items={list} hideCategory /> : <EmptyState compact className="my-3 border-none" icon={<Brain />} title="No aptitude prep yet" description="Add topics like Time & Work or mock test results with scores." />}
+          {list.length ? <ItemList items={list} hideCategory /> : <EmptyState compact className="my-3 border-none" icon={<Brain />} title="No aptitude prep yet" description="Add topics like Time & Work or mock test results with scores." action={<Button size="sm" onClick={() => editor.create({ category: 'aptitude' })}><Plus /> Add topic</Button>} />}
         </Card>
       </div>
     </div>

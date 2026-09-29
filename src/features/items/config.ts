@@ -31,6 +31,8 @@ export interface CategoryConfig {
   value: ItemCategory
   label: string
   plural: string
+  /** One-line explanation shown when choosing a type. */
+  hint: string
   icon: LucideIcon
   /** Tailwind classes for the colored dot / chip. */
   dot: string
@@ -85,6 +87,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'task',
     label: 'Task',
     plural: 'Tasks',
+    hint: 'Anything you need to get done',
     icon: CheckSquare,
     dot: 'bg-slate-500',
     chip: 'bg-slate-500/10 text-slate-700 dark:text-slate-300',
@@ -97,6 +100,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'test',
     label: 'Test',
     plural: 'Tests & exams',
+    hint: 'Exams, internals, quizzes and viva',
     icon: ClipboardCheck,
     dot: 'bg-red-500',
     chip: 'bg-red-500/10 text-red-700 dark:text-red-400',
@@ -114,6 +118,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'lab',
     label: 'Lab',
     plural: 'Labs',
+    hint: 'Lab sessions, experiments and records',
     icon: FlaskConical,
     dot: 'bg-teal-500',
     chip: 'bg-teal-500/10 text-teal-700 dark:text-teal-400',
@@ -130,6 +135,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'assignment',
     label: 'Assignment',
     plural: 'Assignments',
+    hint: 'Homework and submissions with a deadline',
     icon: NotebookPen,
     dot: 'bg-amber-500',
     chip: 'bg-amber-500/10 text-amber-700 dark:text-amber-400',
@@ -146,6 +152,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'project',
     label: 'Project',
     plural: 'Projects',
+    hint: 'College or personal projects you build over weeks',
     icon: FolderKanban,
     dot: 'bg-violet-500',
     chip: 'bg-violet-500/10 text-violet-700 dark:text-violet-400',
@@ -164,6 +171,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'hackathon',
     label: 'Hackathon',
     plural: 'Hackathons',
+    hint: 'Coding competitions you take part in with a team',
     icon: Trophy,
     dot: 'bg-orange-500',
     chip: 'bg-orange-500/10 text-orange-700 dark:text-orange-400',
@@ -183,6 +191,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'event',
     label: 'Event',
     plural: 'Events',
+    hint: 'Workshops, fests, seminars and talks to attend',
     icon: CalendarDays,
     dot: 'bg-pink-500',
     chip: 'bg-pink-500/10 text-pink-700 dark:text-pink-400',
@@ -200,6 +209,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'internship',
     label: 'Internship',
     plural: 'Internships',
+    hint: 'Internship applications, from wishlist to offer',
     icon: Briefcase,
     dot: 'bg-emerald-500',
     chip: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
@@ -220,6 +230,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'dsa',
     label: 'DSA',
     plural: 'DSA practice',
+    hint: 'Coding problems and topics for placements',
     icon: Code2,
     dot: 'bg-sky-500',
     chip: 'bg-sky-500/10 text-sky-700 dark:text-sky-400',
@@ -242,6 +253,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'aptitude',
     label: 'Aptitude',
     plural: 'Aptitude prep',
+    hint: 'Aptitude topics and mock test scores',
     icon: Brain,
     dot: 'bg-fuchsia-500',
     chip: 'bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-400',
@@ -259,6 +271,7 @@ export const CATEGORIES: CategoryConfig[] = [
     value: 'certification',
     label: 'Certification',
     plural: 'Certifications',
+    hint: 'Online courses and certificates you are earning',
     icon: BadgeCheck,
     dot: 'bg-yellow-500',
     chip: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400',
@@ -276,8 +289,9 @@ export const CATEGORIES: CategoryConfig[] = [
   },
   {
     value: 'custom',
-    label: 'Activity',
-    plural: 'Other activities',
+    label: 'Other',
+    plural: 'Other',
+    hint: 'Anything that doesn’t fit the other types',
     icon: Sparkles,
     dot: 'bg-indigo-500',
     chip: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-400',
@@ -287,6 +301,12 @@ export const CATEGORIES: CategoryConfig[] = [
     fields: [],
   },
 ]
+
+/** Types shown as quick buttons in the form; the rest live under "More types". */
+export const PRIMARY_CATEGORIES: ItemCategory[] = ['task', 'test', 'assignment', 'lab', 'project']
+
+/** Types where a 0–100% progress bar makes sense. */
+export const PROGRESS_CATEGORIES: ItemCategory[] = ['task', 'assignment', 'project', 'certification', 'aptitude', 'custom']
 
 export const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map((c) => [c.value, c])) as Record<ItemCategory, CategoryConfig>
 

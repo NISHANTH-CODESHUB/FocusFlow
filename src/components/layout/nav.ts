@@ -1,4 +1,4 @@
-import { BarChart3, CalendarRange, Download, FolderOpen, GraduationCap, LayoutDashboard, Rocket, Settings, type LucideIcon } from 'lucide-react'
+import { BarChart3, CalendarDays, CalendarRange, Download, FolderOpen, GraduationCap, LayoutDashboard, Rocket, Settings, type LucideIcon } from 'lucide-react'
 
 export interface NavItem {
   to: string
@@ -10,6 +10,7 @@ export interface NavItem {
 export const NAV: NavItem[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, description: 'Your day at a glance' },
   { to: '/planner', label: 'Planner', icon: CalendarRange, description: 'Tasks, tests, labs, deadlines' },
+  { to: '/calendar', label: 'Calendar', icon: CalendarDays, description: 'Plan your days and weeks' },
   { to: '/academics', label: 'Academics', icon: GraduationCap, description: 'Subjects, units and concepts' },
   { to: '/career', label: 'Career', icon: Rocket, description: 'DSA, aptitude, projects, internships' },
   { to: '/stats', label: 'Statistics', icon: BarChart3, description: 'Progress and productivity' },

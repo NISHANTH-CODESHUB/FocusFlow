@@ -62,7 +62,7 @@ describe('buildDatasets', () => {
 
   it('computes academic percentages', () => {
     const [academics] = buildDatasets(src, { sections: ['academics'], includeCompleted: true }, NOW)
-    expect(academics!.rows[0]).toMatchObject({ concepts: 1, learning: 1, percent: 50 })
+    expect(academics!.rows[0]).toMatchObject({ concepts: 1, learning: 1, percent: 0 })
   })
 })
 

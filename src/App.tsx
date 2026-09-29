@@ -16,6 +16,7 @@ import { ThemeProvider, useTheme } from '@/providers/theme'
 
 const DashboardPage = lazy(() => import('@/features/dashboard/DashboardPage'))
 const PlannerPage = lazy(() => import('@/features/planner/PlannerPage'))
+const CalendarPage = lazy(() => import('@/features/planner/CalendarPage'))
 const AcademicsPage = lazy(() => import('@/features/academics/AcademicsPage'))
 const SubjectPage = lazy(() => import('@/features/academics/SubjectPage'))
 const CareerPage = lazy(() => import('@/features/career/CareerPage'))
@@ -127,6 +128,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: page(<DashboardPage />) },
           { path: '/planner', element: page(<PlannerPage />) },
+          { path: '/calendar', element: page(<CalendarPage />) },
           { path: '/academics', element: page(<AcademicsPage />) },
           { path: '/academics/:subjectId', element: page(<SubjectPage />) },
           { path: '/career', element: page(<CareerPage />) },

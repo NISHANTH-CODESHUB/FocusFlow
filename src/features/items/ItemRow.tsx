@@ -1,4 +1,5 @@
-import { Check, Copy, MoreHorizontal, Paperclip, Pencil, Trash2 } from 'lucide-react'
+import { addDays, nextMonday } from 'date-fns'
+import { CalendarDays, CalendarPlus, Check, Copy, MoreHorizontal, Paperclip, Pencil, Sun, Sunrise, Trash2 } from 'lucide-react'
 import { memo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from '@/components/ui/menu'
@@ -9,6 +10,7 @@ import type { Item } from '@/types/database'
 import { statusPatch, useCreateItem, useDeleteItem, useToggleComplete, useUpdateItem } from './api'
 import { CategoryChip, DueLabel, PriorityFlag, StatusBadge } from './components'
 import { STATUSES } from './config'
+import { useReschedule } from '../planner/dnd'
 import { useItemEditor } from './editor'
 
 interface ItemRowProps {
@@ -84,6 +86,8 @@ export function ItemActions({ item, className }: { item: Item; className?: strin
   const create = useCreateItem()
   const remove = useDeleteItem()
   const confirm = useConfirm()
+  const reschedule = useReschedule()
+  const open = item.status !== 'completed' && item.status !== 'cancelled'
 
   const duplicate = () => {
     const { id: _id, user_id: _u, created_at: _c, updated_at: _up, completed_at: _ca, ...rest } = item
@@ -97,7 +101,7 @@ export function ItemActions({ item, className }: { item: Item; className?: strin
           variant="ghost"
           size="icon-sm"
           aria-label={`Actions for ${item.title}`}
-          className={cn('shrink-0 text-muted-foreground opacity-100 sm:opacity-0 sm:group-hover:opacity-100 data-[state=open]:opacity-100 focus-visible:opacity-100', className)}
+          className={cn('shrink-0 text-muted-foreground/70 hover:text-foreground data-[state=open]:text-foreground', className)}
         >
           <MoreHorizontal />
         </Button>
@@ -109,6 +113,24 @@ export function ItemActions({ item, className }: { item: Item; className?: strin
         <MenuItem icon={<Copy />} onSelect={duplicate}>
           Duplicate
         </MenuItem>
+        {open && (
+          <>
+            <MenuSeparator />
+            <MenuLabel>Move to</MenuLabel>
+            <MenuItem icon={<Sun />} onSelect={() => reschedule(item, new Date())}>
+              Today
+            </MenuItem>
+            <MenuItem icon={<Sunrise />} onSelect={() => reschedule(item, addDays(new Date(), 1))}>
+              Tomorrow
+            </MenuItem>
+            <MenuItem icon={<CalendarDays />} onSelect={() => reschedule(item, nextMonday(new Date()))}>
+              Next Monday
+            </MenuItem>
+            <MenuItem icon={<CalendarPlus />} onSelect={() => editor.edit(item)}>
+              Pick a date…
+            </MenuItem>
+          </>
+        )}
         <MenuSeparator />
         <MenuLabel>Set status</MenuLabel>
         {STATUSES.map((s) => (

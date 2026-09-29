@@ -1,6 +1,6 @@
 import { CalendarDays, ChevronDown, Columns3, List, Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 import { PageHeader } from '@/components/layout/AppShell'
 import { Button } from '@/components/ui/button'
 import { Segmented } from '@/components/ui/menu'
@@ -14,14 +14,14 @@ import { useItemEditor } from '../items/editor'
 import { ItemList } from '../items/ItemList'
 import { BUCKET_LABELS, bucketize, compareItems, filterItems, type ItemFilters, type SortKey } from '../items/selectors'
 import { BoardView } from './BoardView'
-import { CalendarView } from './CalendarView'
 import { FilterBar } from './FilterBar'
 
-type View = 'list' | 'board' | 'calendar'
+type View = 'list' | 'board'
 
 export default function PlannerPage() {
   const [params, setParams] = useSearchParams()
-  const view = (params.get('view') as View) || 'list'
+  const requested = params.get('view')
+  const view: View = requested === 'board' ? 'board' : 'list'
   const initialCategory = params.get('category') as ItemCategory | null
   const [filters, setFilters] = useState<ItemFilters>(() => ({
     categories: initialCategory && CATEGORY_MAP[initialCategory] ? [initialCategory] : [],
@@ -45,11 +45,13 @@ export default function PlannerPage() {
 
   const newDefaults = filters.categories?.length === 1 ? { category: filters.categories[0] } : undefined
 
+  if (requested === 'calendar') return <Navigate to="/calendar" replace />
+
   return (
     <div>
       <PageHeader
         title="Planner"
-        description="Everything with a date: tasks, tests, labs, assignments, projects, events and more."
+        description="All your tasks, tests, labs, assignments and more — as a list or a board. To plan by day, use Calendar."
         actions={
           <>
             <Segmented
@@ -59,7 +61,6 @@ export default function PlannerPage() {
               options={[
                 { value: 'list', label: 'List', icon: <List /> },
                 { value: 'board', label: 'Board', icon: <Columns3 /> },
-                { value: 'calendar', label: 'Calendar', icon: <CalendarDays /> },
               ]}
             />
             <Button onClick={() => editor.create(newDefaults)}>
@@ -88,8 +89,6 @@ export default function PlannerPage() {
             </Button>
           }
         />
-      ) : view === 'calendar' ? (
-        <CalendarView items={filtered} />
       ) : view === 'board' ? (
         <BoardView items={filtered} />
       ) : filtered.length === 0 ? (

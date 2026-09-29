@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 import { PageHeader } from '@/components/layout/AppShell'
 import { Button } from '@/components/ui/button'
-import { Field, Input } from '@/components/ui/input'
+import { Field, Input, PasswordInput } from '@/components/ui/input'
 import { Card, CardBody, CardHeader, Skeleton } from '@/components/ui/misc'
 import { errorMessage } from '@/lib/errors'
 import { supabase } from '@/lib/supabase'
@@ -131,10 +131,10 @@ export default function SettingsPage() {
           <CardBody>
             <form onSubmit={changePassword} className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-start" noValidate>
               <Field label="New password" htmlFor="pw-new" error={pw.formState.errors.password?.message}>
-                <Input id="pw-new" type="password" autoComplete="new-password" {...pw.register('password')} />
+                <PasswordInput id="pw-new" autoComplete="new-password" {...pw.register('password')} />
               </Field>
               <Field label="Confirm" htmlFor="pw-confirm" error={pw.formState.errors.confirm?.message}>
-                <Input id="pw-confirm" type="password" autoComplete="new-password" {...pw.register('confirm')} />
+                <PasswordInput id="pw-confirm" autoComplete="new-password" {...pw.register('confirm')} />
               </Field>
               <Button type="submit" className="sm:mt-6" loading={pw.formState.isSubmitting}>
                 Update

@@ -1,5 +1,5 @@
-import { ChevronDown } from 'lucide-react'
-import { forwardRef, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import { ChevronDown, Eye, EyeOff } from 'lucide-react'
+import { forwardRef, useState, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
 const fieldBase =
@@ -11,6 +11,26 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
   ),
 )
 Input.displayName = 'Input'
+
+/** Password field with a show/hide toggle, so people can check what they typed. */
+export const PasswordInput = forwardRef<HTMLInputElement, Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>>(({ className, ...props }, ref) => {
+  const [visible, setVisible] = useState(false)
+  return (
+    <div className="relative">
+      <input ref={ref} type={visible ? 'text' : 'password'} className={cn(fieldBase, 'h-9 py-1 pr-10', className)} {...props} />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? 'Hide password' : 'Show password'}
+        aria-pressed={visible}
+        className="absolute top-1/2 right-1.5 grid size-7 -translate-y-1/2 cursor-pointer place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
+      >
+        {visible ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+      </button>
+    </div>
+  )
+})
+PasswordInput.displayName = 'PasswordInput'
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(
   ({ className, rows = 3, ...props }, ref) => (

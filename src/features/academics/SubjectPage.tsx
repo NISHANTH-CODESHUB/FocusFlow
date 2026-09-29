@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarClock, Check, ChevronDown, Circle, CircleDot, ExternalLink, FileText, Layers, Lightbulb, MoreHorizontal, Paperclip, Pencil, Plus, StickyNote, Trash2 } from 'lucide-react'
+import { ArrowLeft, BookOpen, CalendarClock, Check, ChevronDown, ExternalLink, FileText, Layers, Lightbulb, MoreHorizontal, Paperclip, Pencil, Plus, StickyNote, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Ring } from '@/components/shared/charts'
@@ -9,7 +9,7 @@ import { Badge, Card, EmptyState, ErrorState, Progress, Skeleton } from '@/compo
 import { daysUntil, formatDate } from '@/lib/dates'
 import { cn, pluralize } from '@/lib/utils'
 import { useConfirm } from '@/providers/confirm'
-import type { Concept, ConceptStatus, Unit } from '@/types/database'
+import type { Concept, Unit } from '@/types/database'
 import { useFiles } from '../files/api'
 import { Attachments, FileChip } from '../files/components'
 import { useItems } from '../items/api'
@@ -18,7 +18,7 @@ import { ItemList } from '../items/ItemList'
 import { compareItems } from '../items/selectors'
 import { nextPosition, useAcademics, useConceptMutations, useUnitMutations } from './api'
 import { ConceptDialog, SubjectDialog, UnitDialog } from './dialogs'
-import { CONCEPT_STATUSES, nextConceptStatus, subjectColor, type UnitNode } from './tree'
+import { CONCEPT_STATUSES, subjectColor, type UnitNode } from './tree'
 
 export default function SubjectPage() {
   const { subjectId } = useParams()
@@ -169,8 +169,6 @@ export default function SubjectPage() {
   )
 }
 
-const STATUS_ICON: Record<ConceptStatus, typeof Circle> = { not_started: Circle, learning: CircleDot, completed: Check }
-
 function UnitCard({ unit, onEdit, onOpenConcept }: { unit: UnitNode; onEdit: () => void; onOpenConcept: (c: Concept) => void }) {
   const [open, setOpen] = useState(true)
   const [showMaterials, setShowMaterials] = useState(false)
@@ -246,30 +244,41 @@ function UnitCard({ unit, onEdit, onOpenConcept }: { unit: UnitNode; onEdit: () 
           {unit.concepts.length === 0 && <p className="px-2 py-2 text-sm text-muted-foreground">No concepts yet — add the topics from this unit below.</p>}
           <ul>
             {unit.concepts.map((c) => {
-              const Icon = STATUS_ICON[c.status]
-              const status = CONCEPT_STATUSES.find((s) => s.value === c.status)!
               const revDays = daysUntil(c.revision_date)
               const attachments = conceptFileCounts.get(c.id) ?? 0
               return (
                 <li key={c.id} className="group flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-accent/60">
                   <button
-                    onClick={() => update.mutate({ id: c.id, patch: { status: nextConceptStatus(c.status) } })}
-                    title={`${status.label} — click to change`}
-                    aria-label={`${c.title}: ${status.label}. Change status`}
+                    onClick={() => update.mutate({ id: c.id, patch: { status: c.status === 'completed' ? 'not_started' : 'completed' } })}
+                    title={c.status === 'completed' ? 'Done — click to undo' : 'Mark as done'}
+                    aria-label={c.status === 'completed' ? `Mark “${c.title}” as not done` : `Mark “${c.title}” as done`}
+                    aria-pressed={c.status === 'completed'}
                     className={cn(
                       'grid size-5 shrink-0 cursor-pointer place-items-center rounded-full border-2 transition-colors',
-                      c.status === 'completed' && 'border-success bg-success text-white',
-                      c.status === 'learning' && 'border-sky-500 text-sky-500',
-                      c.status === 'not_started' && 'border-muted-foreground/40 text-transparent hover:border-primary',
+                      c.status === 'completed' ? 'border-success bg-success text-white' : 'border-muted-foreground/40 text-transparent hover:border-success hover:text-success/60',
                     )}
                   >
-                    <Icon className="size-3" strokeWidth={3} />
+                    <Check className="size-3" strokeWidth={3} />
                   </button>
                   <button onClick={() => onOpenConcept(c)} className={cn('min-w-0 flex-1 cursor-pointer truncate text-left text-sm', c.status === 'completed' && 'text-muted-foreground')}>
                     {c.title}
                   </button>
                   <span className="flex shrink-0 items-center gap-2 text-muted-foreground">
-                    {c.status === 'learning' && <Badge tone="info">Learning</Badge>}
+                    {c.status !== 'completed' && (
+                      <button
+                        onClick={() => update.mutate({ id: c.id, patch: { status: c.status === 'learning' ? 'not_started' : 'learning' } })}
+                        aria-pressed={c.status === 'learning'}
+                        title={c.status === 'learning' ? 'You’re studying this — click to clear' : 'Mark as currently studying'}
+                        className={cn(
+                          'inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium ring-1 ring-inset transition',
+                          c.status === 'learning'
+                            ? 'bg-sky-500/10 text-sky-700 ring-sky-600/20 dark:text-sky-400'
+                            : 'text-muted-foreground ring-border sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100',
+                        )}
+                      >
+                        <BookOpen className="size-3" /> {c.status === 'learning' ? 'Learning' : 'Studying?'}
+                      </button>
+                    )}
                     {c.revision_date && (
                       <Badge tone={revDays !== null && revDays <= 0 ? 'warning' : 'neutral'} title="Revision date">
                         <CalendarClock /> {formatDate(c.revision_date, 'd MMM')}

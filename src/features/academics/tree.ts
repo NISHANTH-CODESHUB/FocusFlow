@@ -29,8 +29,8 @@ export function progressOf(concepts: ReadonlyArray<Pick<Concept, 'status'>>): Pr
     else if (c.status === 'learning') learning++
   }
   const total = concepts.length
-  // Concepts being learned count half toward completion so progress moves as you study.
-  return { total, completed, learning, notStarted: total - completed - learning, percent: percent(completed + learning * 0.5, total) }
+  // Only finished topics count — "25% done" with nothing finished confused people.
+  return { total, completed, learning, notStarted: total - completed - learning, percent: percent(completed, total) }
 }
 
 export function buildAcademicTree(data: { subjects: Subject[]; units: Unit[]; concepts: Concept[] }): SubjectNode[] {
@@ -65,9 +65,6 @@ export const CONCEPT_STATUSES: ReadonlyArray<{ value: ConceptStatus; label: stri
   { value: 'learning', label: 'Learning', tone: 'info' },
   { value: 'completed', label: 'Completed', tone: 'success' },
 ]
-
-export const nextConceptStatus = (s: ConceptStatus): ConceptStatus =>
-  s === 'not_started' ? 'learning' : s === 'learning' ? 'completed' : 'not_started'
 
 /** Concepts whose revision date is today or already passed. */
 export function revisionsDue(concepts: readonly Concept[], now = new Date()): Concept[] {

@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { Field, Input } from '@/components/ui/input'
+import { Field, Input, PasswordInput } from '@/components/ui/input'
 import { errorMessage } from '@/lib/errors'
 import { supabase } from '@/lib/supabase'
 
@@ -49,7 +49,7 @@ function AuthLayout({ title, subtitle, children, footer }: { title: string; subt
             })}
           </ul>
         </div>
-        <p className="text-xs text-indigo-200">Your data is private to your account and protected by row-level security.</p>
+        <p className="text-xs text-indigo-200">Your data is private — only you can see it, on any device you sign in from.</p>
         <div className="pointer-events-none absolute -right-24 -bottom-24 size-96 rounded-full bg-white/5" />
       </aside>
       <main className="flex items-center justify-center px-5 py-10">
@@ -116,7 +116,7 @@ export function LoginPage() {
           <Input id="email" type="email" autoComplete="email" autoFocus aria-invalid={!!formState.errors.email} {...register('email')} />
         </Field>
         <Field label="Password" htmlFor="password" error={formState.errors.password?.message}>
-          <Input id="password" type="password" autoComplete="current-password" aria-invalid={!!formState.errors.password} {...register('password')} />
+          <PasswordInput id="password" autoComplete="current-password" aria-invalid={!!formState.errors.password} {...register('password')} />
         </Field>
         <div className="flex justify-end">
           <Link to="/forgot-password" className="text-sm text-primary hover:underline">
@@ -198,10 +198,10 @@ export function SignupPage() {
           <Input id="email" type="email" autoComplete="email" aria-invalid={!!errors.email} {...register('email')} />
         </Field>
         <Field label="Password" htmlFor="password" error={errors.password?.message} hint="At least 8 characters with a letter and a number">
-          <Input id="password" type="password" autoComplete="new-password" aria-invalid={!!errors.password} {...register('password')} />
+          <PasswordInput id="password" autoComplete="new-password" aria-invalid={!!errors.password} {...register('password')} />
         </Field>
         <Field label="Confirm password" htmlFor="confirm" error={errors.confirm?.message}>
-          <Input id="confirm" type="password" autoComplete="new-password" aria-invalid={!!errors.confirm} {...register('confirm')} />
+          <PasswordInput id="confirm" autoComplete="new-password" aria-invalid={!!errors.confirm} {...register('confirm')} />
         </Field>
         <Button type="submit" className="w-full" size="lg" loading={formState.isSubmitting}>
           Create account
@@ -268,10 +268,10 @@ export function ResetPasswordPage() {
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
         <FormError message={error} />
         <Field label="New password" htmlFor="password" error={formState.errors.password?.message}>
-          <Input id="password" type="password" autoComplete="new-password" autoFocus {...register('password')} />
+          <PasswordInput id="password" autoComplete="new-password" autoFocus {...register('password')} />
         </Field>
         <Field label="Confirm password" htmlFor="confirm" error={formState.errors.confirm?.message}>
-          <Input id="confirm" type="password" autoComplete="new-password" {...register('confirm')} />
+          <PasswordInput id="confirm" autoComplete="new-password" {...register('confirm')} />
         </Field>
         <Button type="submit" className="w-full" size="lg" loading={formState.isSubmitting}>
           Update password

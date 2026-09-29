@@ -78,7 +78,8 @@ function detailsToForm(details: Json): Record<string, string> {
 export function itemToFormValues(item: Item): ItemFormValues {
   return {
     title: item.title,
-    description: item.description ?? '',
+    // Description and notes are edited as one "Notes" box; merging here keeps older items intact.
+    description: '',
     category: item.category,
     priority: item.priority,
     status: item.status,
@@ -86,7 +87,7 @@ export function itemToFormValues(item: Item): ItemFormValues {
     due_date: toDateInput(item.due_at),
     due_time: item.all_day ? '' : toTimeInput(item.due_at),
     progress: item.progress,
-    notes: item.notes ?? '',
+    notes: [item.description, item.notes].filter(Boolean).join('\n\n'),
     tags: item.tags.join(', '),
     subject_id: item.subject_id ?? '',
     details: detailsToForm(item.details),
