@@ -7,6 +7,7 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Button } from '@/components/ui/button'
 import { EmptyState, Spinner } from '@/components/ui/misc'
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SetupRequired, SignupPage } from '@/features/auth/AuthPages'
+import { AssistantProvider } from '@/features/assistant/assistant'
 import { ItemEditorProvider } from '@/features/items/editor'
 import { queryClient } from '@/lib/query'
 import { isSupabaseConfigured } from '@/lib/supabase'
@@ -50,7 +51,9 @@ function RequireAuth() {
   if (recovering && location.pathname !== '/reset-password') return <Navigate to="/reset-password" replace />
   return (
     <ItemEditorProvider>
-      <AppShell />
+      <AssistantProvider>
+        <AppShell />
+      </AssistantProvider>
     </ItemEditorProvider>
   )
 }

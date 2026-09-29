@@ -1,9 +1,10 @@
-import { GraduationCap, LogOut, Menu as MenuIcon, Monitor, Moon, Plus, Search, Settings, Sun, X } from 'lucide-react'
+import { GraduationCap, LogOut, Menu as MenuIcon, Monitor, Moon, Plus, Search, Settings, Sparkles, Sun, X } from 'lucide-react'
 import { Dialog as D } from 'radix-ui'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from '@/components/ui/menu'
+import { useAssistant } from '@/features/assistant/assistant'
 import { useItemEditor } from '@/features/items/editor'
 import { useDisplayName } from '@/features/settings/api'
 import { cn, initials } from '@/lib/utils'
@@ -90,6 +91,16 @@ function UserMenu() {
         </MenuItem>
       </MenuContent>
     </Menu>
+  )
+}
+
+function AskAiButton() {
+  const assistant = useAssistant()
+  return (
+    <Button variant="outline" onClick={assistant.open} aria-label="Ask AI" title="Ask FocusFlow AI" className="px-2.5 sm:px-3">
+      <Sparkles className="text-violet-500" />
+      <span className="hidden sm:inline">Ask AI</span>
+    </Button>
   )
 }
 
@@ -194,6 +205,7 @@ export function AppShell() {
             <kbd className="ml-auto hidden rounded border border-border bg-muted px-1.5 font-sans text-[10px] font-medium sm:inline">Ctrl K</kbd>
           </button>
           <div className="flex items-center gap-1 lg:ml-auto">
+            <AskAiButton />
             <ThemeToggle />
             <Button onClick={() => editor.create()} className="hidden sm:inline-flex" title="New item (N)">
               <Plus /> New

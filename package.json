@@ -23,6 +23,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "exceljs": "^4.4.0",
+    "groq-sdk": "^1.6.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "lucide-react": "^1.48.0",
@@ -30,8 +31,10 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-hook-form": "^7.89.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.18.4",
     "recharts": "^3.10.1",
+    "remark-gfm": "^4.0.1",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"

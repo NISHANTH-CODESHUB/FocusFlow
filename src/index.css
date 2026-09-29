@@ -133,6 +133,30 @@
   }
 }
 
+/* Markdown inside assistant replies */
+.chat-md {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.chat-md > * + * { margin-top: 0.6em; }
+.chat-md h1, .chat-md h2, .chat-md h3 { font-weight: 600; line-height: 1.3; }
+.chat-md h1 { font-size: 1.1em; }
+.chat-md h2 { font-size: 1.05em; }
+.chat-md h3 { font-size: 1em; }
+.chat-md ul { list-style: disc; padding-left: 1.25em; }
+.chat-md ol { list-style: decimal; padding-left: 1.4em; }
+.chat-md li + li { margin-top: 0.2em; }
+.chat-md a { color: var(--primary); text-decoration: underline; }
+.chat-md strong { font-weight: 600; }
+.chat-md code { font-size: 0.9em; padding: 0.1em 0.35em; border-radius: 0.35em; background: var(--muted); }
+.chat-md pre { overflow-x: auto; padding: 0.75em; border-radius: 0.6em; background: var(--muted); }
+.chat-md pre code { padding: 0; background: none; }
+.chat-md blockquote { border-left: 3px solid var(--border); padding-left: 0.75em; color: var(--muted-foreground); }
+.chat-md table { display: block; overflow-x: auto; border-collapse: collapse; font-size: 0.92em; }
+.chat-md th, .chat-md td { border: 1px solid var(--border); padding: 0.3em 0.55em; text-align: left; }
+.chat-md th { background: var(--muted); font-weight: 600; }
+.chat-md hr { border-color: var(--border); }
+
 @utility scrollbar-none {
   scrollbar-width: none;
   &::-webkit-scrollbar {

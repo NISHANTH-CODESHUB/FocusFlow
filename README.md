@@ -30,8 +30,28 @@ the design and data model.
   concepts, tasks, projects or certifications.
 - **Export** — PDF report or Excel workbook (one sheet per section) with presets
   and date filters.
+- **AI assistant** ("Ask AI" in the top bar) — answers questions about your
+  tasks, deadlines, subjects and prep, builds study plans and explains topics.
+  Runs on Groq's free tier (`openai/gpt-oss-120b`) through a server function, so
+  the key stays private; it reads your data with your own login (RLS applies)
+  and cannot change anything.
 - Global search (`Ctrl/⌘ K` or `/`), quick add (`N`), light/dark/system theme,
   responsive layout with a mobile drawer and bottom-sheet dialogs.
+
+## AI assistant setup (free)
+
+1. Create a free key at [console.groq.com/keys](https://console.groq.com/keys)
+   (no credit card). Optionally enable **Zero Data Retention** under
+   *Settings → Data Controls*.
+2. Add `GROQ_API_KEY` — **without** a `VITE_` prefix, so it never reaches the
+   browser — to Vercel (*Settings → Environment Variables*, then redeploy) and,
+   for local development, to `.env.local`.
+3. The function lives in `api/chat.ts` (logic in `server/chat/`). `npm run dev`
+   serves it locally through a small Vite middleware.
+
+Free-tier limits are shared by everyone using your deployment (roughly 1,000
+requests and 200K tokens per day); the assistant shows a friendly message when
+they are reached.
 
 ## Setup with Supabase
 

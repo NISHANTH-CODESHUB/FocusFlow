@@ -32,6 +32,8 @@
     "src",
     "tests",
     "dev",
+    "server",
+    "api",
     "vite.config.ts",
     "vitest.config.ts"
   ]
